@@ -71,7 +71,7 @@ function resetPlot() {
 }
 
 function sendValuesAndRunSimulation() {
-  inputtedParams {};
+  inputtedParams = {};
   var formObj = document.forms.namedItem("parameters");
   var inputs = formObj.getElementsByTagName('input');
   for (var i = 0; i < inputs.length; i++) {
