@@ -5,6 +5,12 @@
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
   <script src="sketch.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script> 
+    $(function(){
+      $("#markdownContent").load("description.html"); 
+    });
+    </script>
 </head>
 
 <body>
@@ -13,6 +19,8 @@
       <h1>Rabi Oscillations Playground</h1>
     </div>
 
+
+    
     <form id="parameters">     
       Initial state (a, b): (<input type="number" name="a" step=any> ,  <input type="number" name="b" min=0 step=any>)
       <br>
@@ -24,7 +32,13 @@
       <br>
     </form>
     <button type="button" onclick="sendValues()">Submit it</button>
-  </main>
+
+    <br>
+    <div id="markdownContent"></div> 
+    
+</main>
+
+
 
   <script>
     function sendValues(){
