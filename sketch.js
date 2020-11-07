@@ -19,10 +19,11 @@ const upSpinColor = [255, 204, 0];
 const downSpinColor = [255, 255, 255];
 
 // initial constants
+var cnv;
 var t;
 const dt = 0.01;
 var inputtedParams = {};
-var runButtonPressed = false;
+var isPlotting = false;
 
 function drawAxesAndLabels() {
   fill(color(0,0,0));
@@ -53,7 +54,11 @@ function drawAxesAndLabels() {
 }
 
 function setup() {
-  var cnv = createCanvas(canvasWidth, canvasHeight);
+  cnv = createCanvas(canvasWidth, canvasHeight);
+  cnv.position(
+    (windowWidth - canvasWidth)/2,
+    document.getElementById('pageTitle').offsetHeight * 2
+  );
   cnv.style('display', 'block');
   background(255, 255, 255);
 
@@ -63,7 +68,7 @@ function setup() {
 }
 
 function windowResized() {
-  resizeCanvas(canvasWidth, canvasHeight);
+  cnv.position((windowWidth - canvasWidth)/2, (windowHeight - canvasHeight)/2, 'static');
 }
 
 function resetPlot() {
@@ -82,15 +87,25 @@ function sendValuesAndRunSimulation() {
     inputtedParams[inputs[i].name] = inputs[i].value;
   }
   console.log(inputtedParams);
-  if (runButtonPressed) {
+  if (isPlotting) {
     resetPlot();
   } else {
-    runButtonPressed = true;
+    isPlotting = true;
   }
 }
 
+function pauseSimulation(){
+  isPlotting = false;
+}
+
+function clearValuesAndPlot() {
+  isPlotting = false;
+  inputtedParams = {};
+  resetPlot();
+}
+
 function draw() {
-  if (runButtonPressed && t <= width){
+  if (isPlotting && t <= width){
     x = t;
 
     upSpinProbability = Math.sin(t*dt);

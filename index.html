@@ -6,36 +6,38 @@
   <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
   <script src="sketch.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script> 
-    $(function(){
-      $("#markdownContent").load("description.html"); 
+  <script>
+    $(function () {
+      $("#markdownContent").load("description.html");
     });
-    </script>
+  </script>
 </head>
 
 <body>
   <main>
-    <div>
+    <div id="pageTitle">
       <h1>Rabi Oscillations Simulation</h1>
     </div>
 
     <div>
-    <form id="parameters">
-      Initial state (a, b): (<input type="number" name="a" step=any> , <input type="number" name="b" step=any>)
-      <br>
-      Mass: <input type="number" name="mass" step=any> kg
-      <br>
-      Charge: <input type="number" name="charge" step=any> e
-      <br>
-      B: (<input type="number" name="magnetic1" step=any>, <input type="number" name="magnetic2" step=any> ) G
-      <br>
-    </form>
-    <button type="button" onclick="sendValuesAndRunSimulation()">Run</button>
-  </div>
+      <form id="parameters">
+        Initial state (a, b): (<input type="number" name="a" step=any> , <input type="number" name="b" step=any>)
+        <br>
+        Mass: <input type="number" name="mass" step=any> kg
+        <br>
+        Charge: <input type="number" name="charge" step=any> e
+        <br>
+        B: (<input type="number" name="magnetic1" step=any>, <input type="number" name="magnetic2" step=any> ) G
+        <br>
+        <button type="button" onclick="sendValuesAndRunSimulation()">Run</button>
+        <button type="button" onclick="pauseSimulation()">Pause</button>
+        <button type="button" onclick="clearValuesAndPlot()">Clear</button>
+      </form>
+    </div>
 
-  <div id="markdownContent"></div> 
+    <div id="markdownContent"></div>
   </main>
-  
+
 </body>
 
 </html>
