@@ -1,9 +1,9 @@
 // sizing and spacing
 const canvasHeight = 500;
-const canvasWidth = 620;
-const padding = 3;
+const canvasWidth = 920;
+const padding = 4;
 
-const textHeight = 12;
+const textHeight = 16;
 const maxArrowHeight = 200;
 
 const pointWidth = 3;
@@ -15,8 +15,8 @@ const referenceLineWeight = 1;
 const textWeight = 1;
 const textColor = 0;
 
-const upSpinColor = [255, 204, 0];
-const downSpinColor = [255, 255, 255];
+const upSpinColor = [53, 0, 211];
+const downSpinColor = [12, 0, 50];
 
 // initial constants
 var cnv;
@@ -46,8 +46,9 @@ function drawAxesAndLabels() {
   textSize(textHeight);
   // x axis
   text('0', 0 + 5, height/2 + textHeight + padding);
-  text('3', canvasWidth/2 - 5, height/2 + textHeight + padding);
-  text('6', canvasWidth - 10, height/2 + textHeight + padding);
+  text('3', canvasWidth/3 - 10, height/2 + textHeight + padding);
+  text('6', canvasWidth*2/3 - 10, height/2+ textHeight + padding);
+  text('9', canvasWidth - 20, height/2 + textHeight + padding);
   // y axis
   text('P(upspin) = 1', padding, height/2 - maxArrowHeight - padding);
   text('P(downspin) = 1', padding, height/2 + maxArrowHeight + textHeight + padding);
@@ -68,7 +69,10 @@ function setup() {
 }
 
 function windowResized() {
-  cnv.position((windowWidth - canvasWidth)/2, (windowHeight - canvasHeight)/2, 'static');
+  cnv.position(
+    (windowWidth - canvasWidth)/2,
+    document.getElementById('pageTitle').offsetHeight * 2
+  );
 }
 
 function resetPlot() {
@@ -108,16 +112,19 @@ function draw() {
   if (isPlotting && t <= width){
     x = t;
 
-    upSpinProbability = Math.sin(t*dt);
+    upSpinProbability = Math.sin(t*dt)/2 +0.5;
 
     upSpinY = height/2 - upSpinProbability * maxArrowHeight;
     downSpinY = height/2 + (1 - upSpinProbability) * maxArrowHeight;
     
-    fill(color(upSpinColor[0], upSpinColor[1], upSpinColor[2]));
     noStroke();
+    fill(color(upSpinColor[0], upSpinColor[1], upSpinColor[2]));
     ellipse(t, upSpinY, pointWidth, pointWidth);
-    // fill(downSpinColor)
-    // ellipse(t, downSpinY, pointWidth, pointWidth);
+    fill(color(downSpinColor[0], downSpinColor[1], downSpinColor[2]));
+    ellipse(t, downSpinY, pointWidth, pointWidth);
+
+    stroke(color(103, 61, 230));
+    line(t, upSpinY, t, downSpinY);
 
     t+=1;
   }

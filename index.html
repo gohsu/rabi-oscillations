@@ -13,7 +13,7 @@
   </script>
 </head>
 
-<body>
+<body class="homePageBody">
   <main>
     <div id="pageTitle">
       <h1>Rabi Oscillations Simulation</h1>
@@ -21,17 +21,19 @@
 
     <div>
       <form id="parameters">
-        Initial state (a, b): (<input type="number" name="a" step=any> , <input type="number" name="b" step=any>)
+        Initial state (a, b): ( <input type="number" name="a" step=any> , <input type="number" name="b" step=any> )
         <br>
         Mass: <input type="number" name="mass" step=any> kg
         <br>
         Charge: <input type="number" name="charge" step=any> e
         <br>
-        B: (<input type="number" name="magnetic1" step=any>, <input type="number" name="magnetic2" step=any> ) G
+        B: ( <input type="number" name="magnetic1" step=any> , <input type="number" name="magnetic2" step=any> ) G
         <br>
-        <button type="button" onclick="sendValuesAndRunSimulation()">Run</button>
-        <button type="button" onclick="pauseSimulation()">Pause</button>
-        <button type="button" onclick="clearValuesAndPlot()">Clear</button>
+        <div class="runButtons">
+          <button type="button" class="homePageButton" onclick="sendValuesAndRunSimulation()">Run</button>
+          <button type="button" class="homePageButton" onclick="pauseSimulation()">Pause</button>
+          <button type="button" class="homePageButton" onclick="clearValuesAndPlot()">Clear</button>
+        </div>
       </form>
     </div>
 

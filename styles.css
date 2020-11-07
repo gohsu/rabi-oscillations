@@ -7,24 +7,40 @@ h1 {
   text-align: center;
 }
 
-body {
+/*using class name instead of element because of conflicts with description.html*/
+.homePageBody {
   margin: 0;
   display: flex;
-
   /* This centers our sketch horizontally. */
   justify-content: center;
+  background-color: #e3e2df;
 }
 
 form {
   margin-top: 540px;
+  font-weight: 900;
+  font-size: 20;
 }
 
 input {
   width: 50px;
+  border-radius: 5px;
 }
 
 .p5Canvas {
   margin: 0;
   padding: 0;
   border-style: solid;
+  border-radius: 25px;
+}
+
+.runButtons {
+  margin-top: 20px;
+}
+
+.homePageButton {
+  color: #ffffff;
+  font-weight: 450;
+  background-color: #3500d3;
+  border-radius: 5px;
 }
