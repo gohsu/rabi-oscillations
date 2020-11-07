@@ -1,12 +1,26 @@
 // sizing and spacing
 const canvasHeight = 500;
-const canvasWidth = 920;
+const borderWeight = 5;
+const plotWidth = 620;
+const plotAndParticleAnimationPadding = 20;
+
+const particleAnimationWidth = 300;
+const particleX = plotWidth + plotAndParticleAnimationPadding + (particleAnimationWidth - borderWeight)/2;
+const particleY = canvasHeight/2;
+const particleRadius = 30;
+const particleUpArrowStart = particleY - particleRadius;
+const particleDownArrowStart = particleY + particleRadius;
+const particleWeight = 1;
+const particleArrowWeight = 5;
+
+const canvasWidth = plotWidth + plotAndParticleAnimationPadding + particleAnimationWidth;
+
 const padding = 4;
 
 const textHeight = 16;
 const maxArrowHeight = 200;
 
-const pointWidth = 3;
+const pointWidth = 5;
 
 // coloring
 const axisWeight = 3;
@@ -17,41 +31,102 @@ const textColor = 0;
 
 const upSpinColor = [53, 0, 211];
 const downSpinColor = [12, 0, 50];
+const particleColor = [103, 61, 230]
 
 // initial constants
 var cnv;
 var t;
 const dt = 0.01;
+
 var inputtedParams = {};
 var isPlotting = false;
 
+function drawAxesBase() {
+  fill(color(255,255,255));
+  strokeWeight(borderWeight);
+  rect(borderWeight/2, borderWeight/2, plotWidth - borderWeight, canvasHeight - borderWeight, 25);
+}
+
 function drawAxesAndLabels() {
   fill(color(0,0,0));
-
   // draw axes
   strokeWeight(axisWeight);
   stroke(axisColor);
   // x axis
-  line(0, height/2, width, height/2);
-  line(width - 5, height/2 - 5, width, height/2);
-  line(width - 5, height/2 + 5, width, height/2);
+  line(0, height/2, plotWidth - borderWeight, height/2);
+  // x axis arrows
+  line(plotWidth - borderWeight - 10, height/2 - 10, plotWidth - borderWeight, height/2);
+  line(plotWidth - borderWeight - 10, height/2 + 10, plotWidth - borderWeight, height/2);
   // +/- 1 markers
   strokeWeight(referenceLineWeight);
-  line(0, height/2 - maxArrowHeight, width, height/2 - maxArrowHeight);
-  line(0, height/2 + maxArrowHeight, width, height/2 + maxArrowHeight);
+  line(0, height/2 - maxArrowHeight, plotWidth - borderWeight, height/2 - maxArrowHeight);
+  line(0, height/2 + maxArrowHeight, plotWidth - borderWeight, height/2 + maxArrowHeight);
 
   // axes labels
   strokeWeight(textWeight);
   stroke(textColor);
   textSize(textHeight);
   // x axis
-  text('0', 0 + 5, height/2 + textHeight + padding);
-  text('3', canvasWidth/3 - 10, height/2 + textHeight + padding);
-  text('6', canvasWidth*2/3 - 10, height/2+ textHeight + padding);
-  text('9', canvasWidth - 20, height/2 + textHeight + padding);
+  text('0', padding + borderWeight, height/2 + textHeight + padding);
+  text('3', plotWidth/2 - 10, height/2 + textHeight + padding);
+  text('6', plotWidth - 20, height/2+ textHeight + padding);
   // y axis
-  text('P(upspin) = 1', padding, height/2 - maxArrowHeight - padding);
-  text('P(downspin) = 1', padding, height/2 + maxArrowHeight + textHeight + padding);
+  text('P(upspin) = 1', padding + borderWeight, height/2 - maxArrowHeight - 2*padding);
+  text('P(downspin) = 1', padding + borderWeight, height/2 + maxArrowHeight + textHeight + padding);
+}
+
+function drawInitialAxesAndLabes() {
+  drawAxesBase();
+  drawAxesAndLabels();
+}
+
+function drawParticleAnimationBase() {
+  fill(color(255,255,255));
+  stroke(axisColor);
+  strokeWeight(borderWeight);
+  rect(
+    plotWidth + plotAndParticleAnimationPadding,
+    borderWeight/2,
+    particleAnimationWidth - borderWeight,
+    canvasHeight - borderWeight,
+    25
+  );
+  
+  strokeWeight(particleWeight);
+  fill(color(particleColor[0], particleColor[1], particleColor[2]));
+  ellipse(
+    particleX,
+    particleY,
+    particleRadius*2
+  );
+  
+}
+
+function drawParticleAnimationArrows(upSpinY, downSpinY){
+  strokeWeight(particleArrowWeight);
+
+  if (upSpinY < particleUpArrowStart) {
+    stroke(color(upSpinColor[0], upSpinColor[1], upSpinColor[2]));
+    line(particleX, particleUpArrowStart, particleX, upSpinY);
+    line(particleX - 10, upSpinY + 10, particleX, upSpinY);
+    line(particleX + 10, upSpinY + 10, particleX, upSpinY);
+  }
+  if (downSpinY > particleDownArrowStart) {
+    stroke(color(downSpinColor[0], downSpinColor[1], downSpinColor[2]));
+    line(particleX, particleY + particleRadius, particleX, downSpinY);
+    line(particleX - 10, downSpinY - 10, particleX, downSpinY);
+    line(particleX + 10, downSpinY - 10, particleX, downSpinY);
+  }
+
+  fill(color(0,0,0));
+}
+
+function drawInitialParticleAnimation(){
+  drawParticleAnimationBase();
+  drawParticleAnimationArrows(
+    particleUpArrowStart + particleRadius - 0.5*maxArrowHeight,
+    particleDownArrowStart - particleRadius + 0.5*maxArrowHeight
+  );
 }
 
 function setup() {
@@ -61,11 +136,12 @@ function setup() {
     document.getElementById('pageTitle').offsetHeight * 2
   );
   cnv.style('display', 'block');
-  background(255, 255, 255);
+  background(227, 226, 223);
 
-  drawAxesAndLabels();
+  drawInitialAxesAndLabes();
+  drawInitialParticleAnimation();
   stroke(0);
-  t = 0;
+  t = borderWeight;
 }
 
 function windowResized() {
@@ -108,23 +184,33 @@ function clearValuesAndPlot() {
   resetPlot();
 }
 
-function draw() {
-  if (isPlotting && t <= width){
-    x = t;
+function drawPlot(t, upSpinY, downSpinY){
+  noStroke();
+  fill(color(upSpinColor[0], upSpinColor[1], upSpinColor[2]));
+  ellipse(t, upSpinY, pointWidth, pointWidth);
+  fill(color(downSpinColor[0], downSpinColor[1], downSpinColor[2]));
+  ellipse(t, downSpinY, pointWidth, pointWidth);
 
+  stroke(color(particleColor[0], particleColor[1], particleColor[2]));
+  line(t, upSpinY + pointWidth, t, downSpinY - pointWidth);
+
+  //drawAxesAndLabels();
+}
+
+function drawParticleAnimation(upSpinY, downSpinY){
+  drawParticleAnimationBase();
+  drawParticleAnimationArrows(upSpinY, downSpinY);
+}
+
+function draw() {
+  if (isPlotting && t <= plotWidth - borderWeight){
     upSpinProbability = Math.sin(t*dt)/2 +0.5;
 
     upSpinY = height/2 - upSpinProbability * maxArrowHeight;
     downSpinY = height/2 + (1 - upSpinProbability) * maxArrowHeight;
     
-    noStroke();
-    fill(color(upSpinColor[0], upSpinColor[1], upSpinColor[2]));
-    ellipse(t, upSpinY, pointWidth, pointWidth);
-    fill(color(downSpinColor[0], downSpinColor[1], downSpinColor[2]));
-    ellipse(t, downSpinY, pointWidth, pointWidth);
-
-    stroke(color(103, 61, 230));
-    line(t, upSpinY, t, downSpinY);
+    drawPlot(t, upSpinY, downSpinY)
+    drawParticleAnimation(upSpinY, downSpinY);
 
     t+=1;
   }

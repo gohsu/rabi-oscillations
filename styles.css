@@ -5,8 +5,12 @@ body {
 
 h1 {
   text-align: center;
+<<<<<<< Updated upstream
   font-family: "Staatliches", sans-serif;
   letter-spacing: 2px;
+=======
+>>>>>>> Stashed changes
+  border: 0;
 }
 
 /*using class name instead of element because of conflicts with description.html*/
@@ -29,7 +33,7 @@ input {
   border-radius: 5px;
 }
 
-.container{
+.container {
   margin: auto;
   max-width: 800px;
   padding-left: 2rem;
@@ -41,8 +45,6 @@ input {
 .p5Canvas {
   margin: 0;
   padding: 0;
-  border-style: solid;
-  border-radius: 25px;
 }
 
 .runButtons {
