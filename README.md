@@ -1,2 +1,2 @@
-# hamiltonian-vis
+# Rabi Oscillations
 McGill Physics Hackathon 2020
