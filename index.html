@@ -3,6 +3,9 @@
 <head>
   <title>Rabi Oscillations Playground</title>
   <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Staatliches" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
   <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
   <script src="sketch.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -19,25 +22,25 @@
       <h1>Rabi Oscillations Simulation</h1>
     </div>
 
-    <div>
+    <div class=container>
       <form id="parameters">
-        Initial state (a, b): ( <input type="number" name="a" step=any> , <input type="number" name="b" step=any> )
-        <br>
-        Mass: <input type="number" name="mass" step=any> kg
-        <br>
-        Charge: <input type="number" name="charge" step=any> e
-        <br>
-        B: ( <input type="number" name="magnetic1" step=any> , <input type="number" name="magnetic2" step=any> ) G
-        <br>
+        How does the spin of an electron-line particle with:
+        <ul>
+          <li>mass m = <input type="number" name="mass" step=any> kg</li>
+          <li>charge q = <input type="number" name="charge" step=any> e</li>
+          <li>initial state (a, b) = (<input type="number" name="a" step=any>,<input type="number" name="b" step=any>)</li>
+        </ul> 
+        oscillate in a magnetic field with parameters B = <input type="number" name="magnetic1" step=any> and B0 = <input type="number" name="magnetic2" step=any>
+        ?
         <div class="runButtons">
           <button type="button" class="homePageButton" onclick="sendValuesAndRunSimulation()">Run</button>
-          <button type="button" class="homePageButton" onclick="pauseSimulation()">Pause</button>
+          <button type="button" class="homePageButton_center" onclick="pauseSimulation()">Pause</button>
           <button type="button" class="homePageButton" onclick="clearValuesAndPlot()">Clear</button>
         </div>
       </form>
     </div>
 
-    <div id="markdownContent"></div>
+    <div id="markdownContent" class=container></div>
   </main>
 
 </body>
