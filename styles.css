@@ -1,0 +1,22 @@
+html,
+body {
+  height: 100%;
+}
+
+h1 {
+  text-align: center;
+}
+
+body {
+  margin: 0;
+  display: flex;
+
+  /* This centers our sketch horizontally. */
+  justify-content: center;
+}
+
+.p5Canvas {
+  margin: 0;
+  padding: 0;
+  border-style: solid;
+}
