@@ -28,8 +28,11 @@ function psi(t, psi0, w0, w1, w) {
     const weff = tf.math.sqrt((w0-w)**2 + w1**2); 
     const M = ab_to_alphabeta(thet);
     const alpha_beta = tf.matmul(M, psi0);
-    const alpha = alpha_beta[0];
-    const beta = alpha_beta[1];
+    const alpha_ = alpha_beta[0];
+    const beta_ = alpha_beta[1];
+    const norm = math.conj(alpha_)*alpha_ + math.conj(beta_)*beta;
+    const alpha = alpha_/norm;
+    const beta = beta_/norm;
     const costo2 = tf.math.cos(thet/2);
     const sinto2 = tf.math.sin(thet/2);
     top = costo2*tf.math.exp(tf.complex(0, -w/2*t))*tf.math.exp(tf.complex(0, -weff/2*t))*alpha;
