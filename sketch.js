@@ -1,5 +1,5 @@
 // sizing and spacing
-const canvasHeight = 500;
+const canvasHeight = 400;
 const borderWeight = 5;
 const plotWidth = 620;
 const plotAndParticleAnimationPadding = 20;
@@ -7,7 +7,7 @@ const plotAndParticleAnimationPadding = 20;
 const particleAnimationWidth = 300;
 const particleX = plotWidth + plotAndParticleAnimationPadding + (particleAnimationWidth - borderWeight)/2;
 const particleY = canvasHeight/2;
-const particleRadius = 30;
+const particleRadius = 20;
 const particleUpArrowStart = particleY - particleRadius;
 const particleDownArrowStart = particleY + particleRadius;
 const particleWeight = 1;
@@ -18,7 +18,7 @@ const canvasWidth = plotWidth + plotAndParticleAnimationPadding + particleAnimat
 const padding = 4;
 
 const textHeight = 16;
-const maxArrowHeight = 200;
+const maxArrowHeight = 150;
 
 const pointWidth = 5;
 
@@ -29,6 +29,7 @@ const referenceLineWeight = 1;
 const textWeight = 1;
 const textColor = 0;
 
+const plotAndParticleAnimationPaddingColor = [249, 244, 255]
 const upSpinColor = [53, 0, 211];
 const downSpinColor = [12, 0, 50];
 const particleColor = [103, 61, 230]
@@ -136,7 +137,11 @@ function setup() {
     document.getElementById('pageTitle').offsetHeight * 2
   );
   cnv.style('display', 'block');
-  background(227, 226, 223);
+  background(
+    plotAndParticleAnimationPaddingColor[0],
+    plotAndParticleAnimationPaddingColor[1],
+    plotAndParticleAnimationPaddingColor[2]
+  );
 
   drawInitialAxesAndLabes();
   drawInitialParticleAnimation();
@@ -191,10 +196,10 @@ function drawPlot(t, upSpinY, downSpinY){
   fill(color(downSpinColor[0], downSpinColor[1], downSpinColor[2]));
   ellipse(t, downSpinY, pointWidth, pointWidth);
 
-  stroke(color(particleColor[0], particleColor[1], particleColor[2]));
+  const fillColor = color(particleColor[0], particleColor[1], particleColor[2]);
+  fillColor.setAlpha(255*0.2);
+  stroke(fillColor);
   line(t, upSpinY + pointWidth, t, downSpinY - pointWidth);
-
-  //drawAxesAndLabels();
 }
 
 function drawParticleAnimation(upSpinY, downSpinY){

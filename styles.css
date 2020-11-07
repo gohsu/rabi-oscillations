@@ -5,12 +5,14 @@ body {
 
 h1 {
   text-align: center;
-<<<<<<< Updated upstream
   font-family: "Staatliches", sans-serif;
   letter-spacing: 2px;
-=======
->>>>>>> Stashed changes
   border: 0;
+}
+
+ul {
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 /*using class name instead of element because of conflicts with description.html*/
@@ -19,11 +21,11 @@ h1 {
   display: flex;
   /* This centers our sketch horizontally. */
   justify-content: center;
-  background-color: #e3e2df;
+  background-color: #f9f4ff;
 }
 
 form {
-  margin-top: 540px;
+  margin-top: 430px;
   font-weight: 900;
   font-size: 20;
 }
@@ -31,6 +33,7 @@ form {
 input {
   width: 50px;
   border-radius: 5px;
+  height: 25px;
 }
 
 .container {
@@ -48,21 +51,25 @@ input {
 }
 
 .runButtons {
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   justify-content: center;
 }
 
 .homePageButton {
   color: #ffffff;
-  font-weight: 450;
+  font-size: 20;
+  font-weight: 500;
+  padding: 10px;
   background-color: #3500d3;
   border-radius: 5px;
 }
 
 .homePageButton_center {
   color: #ffffff;
-  font-weight: 450;
+  font-size: 20;
+  font-weight: 500;
+  padding: 10px;
   background-color: #3500d3;
   border-radius: 5px;
   margin-left: 10px;
