@@ -2,17 +2,19 @@ yarn add @tensorflow/tfjs-node
 // <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
 
 function ab_to_alphabeta(thet) {
-    // Matrix that transforms (a,b)^T (alpha,beta)^T
-    M = tf.constant([[np.cos(thet/2),np.sin(thet/2)],[np.sin(thet/2),-np.cos(thet/2)];
+    const M;
+    M = tf.constant([[tf.math.cos(thet/2), tf.math.sin(thet/2)],[tf.math.sin(thet/2),-tf.math.cos(thet/2)]]);
     return M;
 }
 
-function theta(w0, w1, w): {
+function theta(w0, w) {
+    const thet;
     thet = tf.math.acos((w0-w)/weff);
     return thet;
 }
 
 function params_to_omegas(B0, B, q, m) {
+    const g, c, w0, w1;
     g = 2.002
     c = 29979245800 // cgs!
     w0 = -g*q*B0/(2*m*c);
@@ -21,8 +23,10 @@ function params_to_omegas(B0, B, q, m) {
 }
 
 function psi(t, psi0, w0, w1, w) {
+    const thet, weff, M, alpha_beta, alpha, beta, costo2, sinto2, psi_t;
+    var top, bot;
     thet = theta(w0,w1,w);
-    weff = tf.math.sqrt((w0-w)**2 + w1**2);
+    weff = tf.math.sqrt((w0-w)**2 + w1**2); 
     M = ab_to_alphabeta(thet);
     alpha_beta = tf.matmul(M, psi0);
     alpha = alpha_beta[0];
@@ -38,12 +42,14 @@ function psi(t, psi0, w0, w1, w) {
 } 
 
 function probability_plus_z(psi_t) {
+    const prob_amp, prob;
     prob_amp = psi_t[0];
     prob = tf.abs(prob_amp) ** 2;
     return prob;
 }
 
 function main(t, psi0, B0, B, w, m) {
+    const w0, w1, psi_t, prob;
     w0, w1 = params_to_omegas(B0,B,q,m);
     psi_t = psi(t,psi0,w0,w1,w);
     prob = probability_plus_z(psi_t);
