@@ -34,12 +34,9 @@ function psi_top(t, psi0, w0, w1, w) {
     const weff_sq = tf.add(t1.pow(2), w1.pow(2));
     const weff = weff_sq.sqrt();
     const M = ab_to_alphabeta(thet);
-    const alpha_beta = tf.matMul(M, psi0);
-    const alpha_ = tf.slice(alpha_beta, 0, 1);
-    const beta_ = tf.slice(alpha_beta, 1, 1);
-    const norm = tf.add(tf.pow(tf.abs(alpha_), 2), tf.pow(tf.abs(beta_), 2));
-    const alpha = tf.div(alpha_, norm);
-    const beta = tf.div(beta_, norm);
+    const alpha_beta = tf.dot(M, psi0);
+    const alpha = tf.slice(alpha_beta, 0, 1);
+    const beta = tf.slice(alpha_beta, 1, 1);
     const term1 = tf.pow(tf.mul(alpha, tf.cos(tf.div(thet,2))),2);
     const term2 = tf.pow(tf.mul(beta, tf.sin(tf.div(thet,2))), 2)
     const term3 = tf.mul(alpha, beta, tf.sin(thet), tf.cos(weff * t));
@@ -47,16 +44,23 @@ function psi_top(t, psi0, w0, w1, w) {
     return psi_t;
 } 
 
-function main(t, psi0, B0, B, w, m, q) {
+function main(t, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_psi0, B0, B, w, m, q) {
     const w0_w1 = params_to_omegas(B0,B,q,m);
     const w0 = tf.slice(w0_w1, 0, 1);
     const w1 = tf.slice(w0_w1, 1, 1);
+    const norm_psi0 = tf.sqrt(tf.add(real_row1_psi0.pow(2), im_row1_psi0.pow(2), real_row2_psi0.pow(2), im_row2_psi0.pow(2))); 
+    const psi0row1 = tf.complex(tf.div(real_row1_psi0, norm_psi0), tf.div(im_row1_psi0, norm_psi0));
+    const psi0row2 = tf.complex(tf.div(real_row2_psi0, norm_psi0), tf.div(im_row2_psi0, norm_psi0));
+    const psi0 = tf.stack([psi0row1, psi0row2]); 
     const psi_t = psi_top(t,psi0,w0,w1,w);
     return psi_t;
 }
 
-const psi0 = tf.tensor([[1],[0]]);
+const real_row1_psi0 = tf.tensor([1]);
+const im_row1_psi0 = tf.tensor([0]);
+const real_row2_psi0 = tf.tensor([0]);
+const im_row2_psi0 = tf.tensor([0]);
 const omega = tf.tensor([1]);
-var prob = main(0, psi0, 0, 0, omega, 1, -1);
+var prob = main(0, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_psi0, 0, 0, omega, 1, -1);
 console.log('prob');
 prob.print();
