@@ -16,44 +16,21 @@
 <body>
   <main>
     <div>
-      <h1>Rabi Oscillations Playground</h1>
+      <h1>Rabi Oscillations Simulation</h1>
     </div>
 
-
-    
-    <form id="parameters">     
-      Initial state (a, b): (<input type="number" name="a" step=any> ,  <input type="number" name="b" min=0 step=any>)
+    <form id="parameters">
+      Initial state (a, b): (<input type="number" name="a" step=any> , <input type="number" name="b" step=any>)
       <br>
-      Mass: <input type="number" name="mass" min=0 step=any> g?
+      Mass: <input type="number" name="mass" step=any> kg
       <br>
-      Charge: <input type="number" name="charge" min=0 step=any> units
+      Charge: <input type="number" name="charge" step=any> e
       <br>
-      B: (<input type="number" name="magnetic1" min=0 step=any>, <input type="number" name="magnetic2" min=0 step=any> )
+      B: (<input type="number" name="magnetic1" step=any>, <input type="number" name="magnetic2" step=any> ) G
       <br>
     </form>
-    <button type="button" onclick="sendValues()">Submit it</button>
-
-    <br>
-    <div id="markdownContent"></div> 
-    
-</main>
-
-
-
-  <script>
-    function sendValues(){
-      var parameters = {};
-      var formObj = document.forms.namedItem("parameters");
-      var inputs = formObj.getElementsByTagName('input');
-      for (var i=0; i < inputs.length; i++){
-        parameters[inputs[i].name] = inputs[i].value;
-      }
-      console.log(parameters)
-      return parameters;
-    }
-    </script>
-
+    <button type="button" onclick="sendValuesAndRunSimulation()">Run</button>
+  </main>
 </body>
 
 </html>
-
