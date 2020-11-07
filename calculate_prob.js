@@ -2,17 +2,20 @@ const tf = require('@tensorflow/tfjs');
 
 
 function ab_to_alphabeta(thet) {
-    const M = tf.tensor([[tf.cos(thet/2), tf.sin(thet/2)],[tf.sin(thet/2),-tf.cos(thet/2)]]);
+    const a = tf.cos(tf.div(thet,2));
+    const b = tf.sin(tf.div(thet,2));
+    const c = tf.mul(-1, a);
+    const row1 = a.concat(b);
+    const row2 = b.concat(c);
+    const M = tf.stack([row1, row2]);
     return M;
 }
 
 function theta(w0, w1, w) {
-    w0.print();
-    console.log(w);
-    w1.print();
-    const weff = tf.sqrt((w0-w)*(w0-w) + w1*w1);
-    console.log(weff);
-    const thet = tf.acos((w0-w)/weff);
+    const t1 = tf.sub(w0, w);
+    const weff_sq = tf.add(t1.pow(2), w1.pow(2));
+    const weff = weff_sq.sqrt();
+    const thet = tf.acos(tf.div(t1, weff));
     return thet;
 }
 
@@ -27,39 +30,33 @@ function params_to_omegas(B0, B, q, m) {
 
 function psi_top(t, psi0, w0, w1, w) {
     const thet = theta(w0,w1,w);
-    const weff = tf.sqrt((w0-w)*(w0-w) + w1*w1);
-    console.log('weff');
-    console.log(weff);
+    const t1 = tf.sub(w0, w);
+    const weff_sq = tf.add(t1.pow(2), w1.pow(2));
+    const weff = weff_sq.sqrt();
     const M = ab_to_alphabeta(thet);
     const alpha_beta = tf.matMul(M, psi0);
     const alpha_ = tf.slice(alpha_beta, 0, 1);
     const beta_ = tf.slice(alpha_beta, 1, 1);
-//    const norm = tf.conjugate(alpha_)*alpha_ + tf.conjugate(beta_)*beta_;
-    const norm = tf.abs(alpha_) ** 2 + tf.abs(beta_) ** 2
-    const alpha = alpha_/norm;
-    const beta = beta_/norm;
-    console.log('alp');
-    alpha.print();
-    beta.print();
-    const term3 = alpha*beta*tf.sin(thet)*tf.cos(weff * t);
-    const psi_t = (alpha*tf.cos(thet/2))**2 + (beta*tf.sin(thet/2))**2 + term3;
+    const norm = tf.add(tf.pow(tf.abs(alpha_), 2), tf.pow(tf.abs(beta_), 2));
+    const alpha = tf.div(alpha_, norm);
+    const beta = tf.div(beta_, norm);
+    const term1 = tf.pow(tf.mul(alpha, tf.cos(tf.div(thet,2))),2);
+    const term2 = tf.pow(tf.mul(beta, tf.sin(tf.div(thet,2))), 2)
+    const term3 = tf.mul(alpha, beta, tf.sin(thet), tf.cos(weff * t));
+    const psi_t = tf.add(term1, term2, term3);
     return psi_t;
 } 
 
 function main(t, psi0, B0, B, w, m, q) {
     const w0_w1 = params_to_omegas(B0,B,q,m);
-    console.log('w0w1');
-    w0_w1.print();
     const w0 = tf.slice(w0_w1, 0, 1);
     const w1 = tf.slice(w0_w1, 1, 1);
-    console.log('w0 saa w1');
-    w0.print();
-    w1.print();
     const psi_t = psi_top(t,psi0,w0,w1,w);
     return psi_t;
 }
 
 const psi0 = tf.tensor([[1],[0]]);
-var prob = main(0, psi0, 1, 2, 1, 1, 1);
+const omega = tf.tensor([1]);
+var prob = main(0, psi0, 0, 0, omega, 1, -1);
 console.log('prob');
-console.log(prob);
+prob.print();
