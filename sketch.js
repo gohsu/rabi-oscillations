@@ -36,7 +36,7 @@ const particleColor = [103, 61, 230]
 
 // initial constants
 var cnv;
-var t;
+var t = 0;
 const dt = 0.0005;
 
 var inputtedParams = {};
@@ -116,6 +116,13 @@ function drawParticleAnimationBase() {
     particleRadius*2
   );
   
+  stroke(axisColor);
+  fill(color(0,0,0));
+  text(
+    `t = ${Math.round(t * dt * 100) / 100} s`,
+    plotWidth + plotAndParticleAnimationPadding + + borderWeight + 2*padding,
+    borderWeight/2 + textHeight + 2*padding
+  );
 }
 
 function drawParticleAnimationArrows(upSpinY, downSpinY){
@@ -200,6 +207,7 @@ function pauseSimulation(){
 
 function clearValuesAndPlot() {
   isPlotting = false;
+  t = 0;
   inputtedParams = {};
   resetPlot();
 }
