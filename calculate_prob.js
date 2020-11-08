@@ -6,12 +6,14 @@ function ab_to_alphabeta(thet) {
     return M;
 }
 
-function theta(w0, w1, w) {
+function costheta(w0, w1, w) {
     const t1 = math.subtract(w0, w);
     const weff_sq = math.add(math.pow(t1, 2), math.pow(w1, 2));
     const weff = math.sqrt(weff_sq);
-    const thet = math.acos(math.divide(t1, weff));
-    return thet;
+    const costhet = math.divide(t1, weff);
+    const costhetover2 = math.sqrt(1/2 + costhet/2);
+    const sinthetover2 = math.sqrt(1 - mat.pow(costhetover2, 2));
+    return {sinthetover2, costhetover2};
 }
 
 function params_to_omegas(B0, B, q, m) {
@@ -24,6 +26,8 @@ function params_to_omegas(B0, B, q, m) {
 }
 
 function psi_top(t, psi0, w0, w1, w) {
+    const {sinthetover2, costhetover2} = costheta(w0,w1,w);
+
     const thet = theta(w0,w1,w);
     const t1 = math.subtract(w0, w);
     const weff_sq = math.add(math.pow(t1, 2), math.pow(w1, 2));
@@ -32,9 +36,9 @@ function psi_top(t, psi0, w0, w1, w) {
     const alpha_beta = math.multiply(M, psi0);
     const alpha = alpha_beta['_data'][0];
     const beta = alpha_beta['_data'][1];
-    const term1 = math.pow(alpha.abs() * math.cos(math.divide(thet,2)),2);
-    const term2 = math.pow(beta.abs() * math.sin(math.divide(thet,2)), 2)
-    const term3 = alpha.abs() * beta.abs() * math.sin(thet) * math.cos(weff * t + beta.arg() - alpha.arg());
+    const term1 = math.pow(alpha.abs() * costhetover2,2);
+    const term2 = math.pow(beta.abs() * sinthetover2, 2)
+    const term3 = alpha.abs() * beta.abs() * 2*sinthetover2*costhetover2 * math.cos(weff * t + beta.arg() - alpha.arg());
     const psi_t = math.add(term1, term2, term3);
     return psi_t;
 } 
