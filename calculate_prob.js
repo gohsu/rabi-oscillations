@@ -39,7 +39,10 @@ function psi_top(t, psi0, w0, w1, w) {
     return psi_t;
 } 
 
-function calculateProb(t, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_psi0, B0, B, w, m, q) {
+function calculateProb(t, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_psi0, B0, B, w, m_in, q_in) {
+    // mass in kg, q in elementary charge
+    const m = 1000 * m_in;
+    const q = 4.80320427 * math.pow(10, -10);
     const w0_w1 = params_to_omegas(B0,B,q,m);
     const w0 = w0_w1[0];
     const w1 = w0_w1[1];
@@ -50,12 +53,3 @@ function calculateProb(t, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_
     const psi_t = psi_top(t,psi0,w0,w1,w);
     return psi_t;
 }
-
-const real_row1_psi0 = 1;
-const im_row1_psi0 = 1;
-const real_row2_psi0 = 1;
-const im_row2_psi0 = -1;
-const omega = 1;
-const prob = calculateProb(0, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_psi0, 0, 0, omega, 1, -1);
-const rounded = math.round(prob, 4);
-console.log(rounded);
