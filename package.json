@@ -1,0 +1,22 @@
+{
+  "name": "rabi-oscillations",
+  "version": "1.0.0",
+  "description": "McGill Physics Hackathon 2020",
+  "main": "calculate_prob.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gohsu/rabi-oscillations.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gohsu/rabi-oscillations/issues"
+  },
+  "homepage": "https://github.com/gohsu/rabi-oscillations#readme",
+  "dependencies": {
+    "mathjs": "^8.0.0"
+  }
+}
