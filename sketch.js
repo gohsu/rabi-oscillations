@@ -1,4 +1,3 @@
-import { main as calculateProb} from "./calculate_prob.js";
 // sizing and spacing
 const canvasHeight = 400;
 const borderWeight = 5;
@@ -211,7 +210,7 @@ function drawParticleAnimation(upSpinY, downSpinY){
 function draw() {
   if (isPlotting && t <= plotWidth - borderWeight){
     const {a, b, c, d, mass, charge, magnetic1, magnetic2, omega} = inputtedParams
-    upSpinProbability = calculateProb(t, a, b, c, d, magnetic2, magnetic1, omega, mass, charge);
+    upSpinProbability = calculateProb(t*dt, a, b, c, d, magnetic2, magnetic1, omega, mass, charge);
 
     upSpinY = height/2 - upSpinProbability * maxArrowHeight;
     downSpinY = height/2 + (1 - upSpinProbability) * maxArrowHeight;

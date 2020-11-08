@@ -7,8 +7,9 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
-  <script type="module" src="sketch.js"></script>
-  <script type="module" src="calculate_prob.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.6.0/math.js"></script>
+  <script src="sketch.js"></script>
+  <script src="calculate_prob.js"></script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
@@ -30,8 +31,8 @@
         <ul>
           <li>mass m = <input type="number" name="mass" step=any> kg</li>
           <li>charge q = <input type="number" name="charge" step=any> e</li>
-          <li>initial state (a + bi, c + di) = 
-            ( <input type="number" name="a" step=any> + <input type="number" name="b" step=any> i , 
+          <li>initial state (a + bi, c + di) =
+            ( <input type="number" name="a" step=any> + <input type="number" name="b" step=any> i ,
             <input type="number" name="c" step=any> + <input type="number" name="d" step=any> i
             )</li>
         </ul>

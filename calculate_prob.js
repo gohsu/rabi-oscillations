@@ -1,6 +1,3 @@
-//const tf = require('@tensorflow/tfjs');
-import math from "mathjs";
-
 function ab_to_alphabeta(thet) {
     const a = math.cos(math.divide(thet,2));
     const b = math.sin(math.divide(thet,2));
@@ -42,7 +39,7 @@ function psi_top(t, psi0, w0, w1, w) {
     return psi_t;
 } 
 
-export function main(t, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_psi0, B0, B, w, m, q) {
+function calculateProb(t, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_psi0, B0, B, w, m, q) {
     const w0_w1 = params_to_omegas(B0,B,q,m);
     const w0 = w0_w1[0];
     const w1 = w0_w1[1];
@@ -59,6 +56,6 @@ const im_row1_psi0 = 1;
 const real_row2_psi0 = 1;
 const im_row2_psi0 = -1;
 const omega = 1;
-const prob = main(0, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_psi0, 0, 0, omega, 1, -1);
+const prob = calculateProb(0, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_psi0, 0, 0, omega, 1, -1);
 const rounded = math.round(prob, 4);
 console.log(rounded);
