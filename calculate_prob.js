@@ -19,8 +19,8 @@ function theta(w0, w1, w) {
 
 function params_to_omegas(B0, B, q, m) {
     const g = 2.002;
-    //const c = 29979245800 // cgs!
-    const c = 1;
+    const c = 29979245800 // cgs!
+    //const c = 1;
     const w0 = -g*q*B0/(2*m*c);
     const w1 = -g*q*B/(2*m*c);
     return [w0, w1];
