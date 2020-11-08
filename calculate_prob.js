@@ -55,5 +55,3 @@ function calculateProb(t, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_
     const psi_t = psi_top(t,psi0,w0,w1,w);
     return psi_t;
 }
-
-console.log("hallo2");
