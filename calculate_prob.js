@@ -43,8 +43,8 @@ function calculateProb(t, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_
     // mass in kg, q in elementary charge
     const m = 9.10938356 * math.pow(10, -31) * 1000 * m_in;
     const q = 4.80320427 * math.pow(10, -10) * q_in;
-    const B0 = mat.pow(10, 5) * B0_in;
-    const B = mat.pow(10, 5) * B_in; 
+    const B0 = math.pow(10, 5) * B0_in;
+    const B = math.pow(10, 5) * B_in; 
     const w0_w1 = params_to_omegas(B0,B,q,m);
     const w0 = w0_w1[0];
     const w1 = w0_w1[1];
