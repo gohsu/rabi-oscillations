@@ -1,8 +1,6 @@
-function ab_to_alphabeta(thet) {
-    const a = math.cos(math.divide(thet,2));
-    const b = math.sin(math.divide(thet,2));
-    const c = math.multiply(-1, a);
-    const M = math.matrix([[a, b], [b, c]]);
+function ab_to_alphabeta(costhetover2, sinthetover2) {
+    const c = math.multiply(-1, costhetover2);
+    const M = math.matrix([[costhetover2, sinthetover2], [sinthetover2, c]]);
     return M;
 }
 
@@ -27,12 +25,10 @@ function params_to_omegas(B0, B, q, m) {
 
 function psi_top(t, psi0, w0, w1, w) {
     const {sinthetover2, costhetover2} = costheta(w0,w1,w);
-
-    const thet = theta(w0,w1,w);
     const t1 = math.subtract(w0, w);
     const weff_sq = math.add(math.pow(t1, 2), math.pow(w1, 2));
     const weff = math.sqrt(weff_sq);
-    const M = ab_to_alphabeta(thet);
+    const M = ab_to_alphabeta(costhetover2, sinthetover2);
     const alpha_beta = math.multiply(M, psi0);
     const alpha = alpha_beta['_data'][0];
     const beta = alpha_beta['_data'][1];
