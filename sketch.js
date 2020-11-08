@@ -72,8 +72,23 @@ function drawAxesAndLabels() {
   text('0.15', plotWidth/2 - 20, height/2 + textHeight + padding);
   text('0.3', plotWidth - 30, height/2+ textHeight + padding);
   // y axis
+  text('0.5', padding + borderWeight + 3, height/2 - maxArrowHeight/2 + padding);
   text('P(up spin) = 1', padding + borderWeight, height/2 - maxArrowHeight - 2*padding);
+  text('0.5', padding + borderWeight + 3, height/2 + maxArrowHeight/2 + padding);
   text('P(down spin) = 1', padding + borderWeight, height/2 + maxArrowHeight + textHeight + padding);
+  strokeWeight(axisWeight);
+  line(
+    borderWeight,
+    height/2 - maxArrowHeight/2,
+    borderWeight + 3,
+    height/2 - maxArrowHeight/2
+  );
+  line(
+    borderWeight,
+    height/2 + maxArrowHeight/2,
+    borderWeight + 3,
+    height/2 + maxArrowHeight/2
+  );
 }
 
 function drawInitialAxesAndLabes() {
