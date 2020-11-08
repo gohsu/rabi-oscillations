@@ -12,7 +12,7 @@ function costheta(w0, w1, w) {
     const weff = math.sqrt(weff_sq);
     const costhet = math.divide(t1, weff);
     const costhetover2 = math.sqrt(1/2 + costhet/2);
-    const sinthetover2 = math.sqrt(1 - mat.pow(costhetover2, 2));
+    const sinthetover2 = math.sqrt(1 - math.pow(costhetover2, 2));
     return {sinthetover2, costhetover2};
 }
 
@@ -59,3 +59,5 @@ function calculateProb(t, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_
     const psi_t = psi_top(t,psi0,w0,w1,w);
     return psi_t;
 }
+
+console.log("hallo");
