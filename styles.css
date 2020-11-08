@@ -32,9 +32,16 @@ form {
 }
 
 input {
-  width: 50px;
   border-radius: 5px;
   height: 25px;
+}
+
+.smolInput {
+  width: 50px;
+}
+
+.thiccInput {
+  width: 100px;
 }
 
 .container {

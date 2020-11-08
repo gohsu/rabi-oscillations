@@ -37,7 +37,7 @@ const particleColor = [103, 61, 230]
 // initial constants
 var cnv;
 var t;
-const dt = 0.01;
+const dt = 0.0005;
 
 var inputtedParams = {};
 var isPlotting = false;
@@ -68,12 +68,12 @@ function drawAxesAndLabels() {
   stroke(textColor);
   textSize(textHeight);
   // x axis
-  text('0', padding + borderWeight, height/2 + textHeight + padding);
-  text('3', plotWidth/2 - 10, height/2 + textHeight + padding);
-  text('6', plotWidth - 20, height/2+ textHeight + padding);
+  text('0.0', padding + borderWeight, height/2 + textHeight + padding);
+  text('0.15', plotWidth/2 - 20, height/2 + textHeight + padding);
+  text('0.3', plotWidth - 30, height/2+ textHeight + padding);
   // y axis
-  text('P(upspin) = 1', padding + borderWeight, height/2 - maxArrowHeight - 2*padding);
-  text('P(downspin) = 1', padding + borderWeight, height/2 + maxArrowHeight + textHeight + padding);
+  text('P(up spin) = 1', padding + borderWeight, height/2 - maxArrowHeight - 2*padding);
+  text('P(down spin) = 1', padding + borderWeight, height/2 + maxArrowHeight + textHeight + padding);
 }
 
 function drawInitialAxesAndLabes() {
