@@ -26,6 +26,7 @@ ul {
 
 form {
   margin-top: 430px;
+  margin-bottom: 0px;
   font-weight: 900;
   font-size: 20;
 }
@@ -51,7 +52,7 @@ input {
 }
 
 .runButtons {
-  margin-top: 10px;
+  margin-top: 15px;
   display: flex;
   justify-content: center;
 }
@@ -69,14 +70,15 @@ input {
   color: #ffffff;
   font-size: 20;
   font-weight: 500;
-  padding: 10px;
+  padding: 0px 10px 0px 10px;
   background-color: #3500d3;
   border-radius: 5px;
   margin-left: 10px;
   margin-right: 10px;
 }
 
-#footer{
+#footer {
   text-align: center;
   font-size: 12px;
+  margin-bottom: 10px;
 }
