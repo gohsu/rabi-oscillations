@@ -10,6 +10,10 @@ h1 {
   border: 0;
 }
 
+h3{
+  text-decoration: underline;
+}
+
 ul {
   margin-top: 0px;
   margin-bottom: 0px;
@@ -87,5 +91,8 @@ input {
 #footer {
   text-align: center;
   font-size: 12px;
+  border-top: solid black 2px;
   margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

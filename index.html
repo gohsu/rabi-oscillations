@@ -16,6 +16,10 @@
     $(function () {
       $("#markdownContent").load("description.html");
     });
+
+    function giveHint(){
+      alert(`Try increasing the value of omega!`);
+    }
   </script>
 </head>
 
@@ -54,24 +58,42 @@
     </div>
     
     <div class=container>
-      <p>The two plots above shows how the probabilities of the particle being in the spin-up state and in the spin-down state vary with time. The first plot graphs
-      probability vs time: the curve at the top is the probability of being in the spin-up state and the curve at the bottom is the probability of being in the spin down
-      state. You will see that the probabilities add up to 1 -- the particle will be in one of the states with 100 % chance.</p>
+      <h3>About the visualization</h3>
+      <p>The two plots above shows how the probabilities of the particle being in the spin-up state and in the spin-down state vary with time. </p>
       
-      <p>The plot to the right is a visualization of the spin at any given time. The two arrows represent the probability of the particle being in the two states, with
-      a longer arrow meaning greater probability. Hence, if you see one long arrow pointing up and no arrow pointing down, the particle is with 100 % certainty in the
-      spin-up state.</p>
+      <p> The left plot graphs probability over time: the upper curve shows the probability of the particle being in the spin-up state and 
+        is bounded below by the (upside-down) curve of the the probability of being in the spin-down state. The height of the bounded area 
+        is always 1, since there is a probability of 1 that the particle will be in either one of the two states at any given time.</p>
+      
+      <p>The plot on the right is a visualization of the spin at any given time, over the same time frame as the graph on the left. 
+        The two arrows represent the probability of the particle being in the two states, with a longer arrow meaning greater probability. 
+        If you see one long arrow pointing up and no arrow pointing down, the particle is with 100 % certainty in the spin-up state.</p>
       
       <p>For any given choice of the magnetic field strengths, it is possible to obtain a 100 % chance of the particle being in the spin-down state -- even if
-      it is intially in the spin-up state! Can you find that frequency?</p>
+      it is intially in the spin-up state! Can you find that frequency? <button onclick="giveHint()">HINT</button> </p>
       
       <hr>
+
+      <h3>Background</h3>
+      <div id="markdownContent"></div>
+
+      <hr>
+
+      <h3>3D Visualizations</h3>
+      <figure>
+        <img src='bloch_sphere.gif'/>
+      </figure>
+
+      <figure>
+        <img src='bloch_sphere_resonance.gif'/>
+      </figure>
+
     </div>
 
-    <div id="markdownContent" class=container></div>
-
     <div class=container id=footer>
-      Made for the McGill Physics Hackathon 2020 by Christian Hellum-Bye, Leo Goutte, Cheng Lin, and Su Goh.
+      Made for the <a href="https://mcgill-phys-hack-2020.devpost.com/">McGill Physics Hackathon 2020</a> by Physicists (Christian Hellum-Bye and Leo Goutte) & Phriends (Cheng Lin and Su Goh).
+      <br>
+      Source code for the website, graphics, and computation can be found on <a href="https://github.com/gohsu/rabi-oscillations">GitHub</a>.
     </div>
   </main>
 
