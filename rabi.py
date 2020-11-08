@@ -1,4 +1,11 @@
 import numpy as np
+import matplotlib.pyplot as plt
+import cmath
+from matplotlib.patches import FancyArrowPatch
+from mpl_toolkits.mplot3d import proj3d
+from mpl_toolkits.mplot3d import Axes3D
+import seaborn as sns
+sns.set_style("white")
 
 def ab_to_alphabeta(thet):
     """
@@ -32,7 +39,8 @@ def psi(t,psi0,w0,w1,w):
     thet = theta(w0,w1,w)
     weff = np.sqrt((w0-w)**2 + w1**2)
     # alpha and beta
-    alpha_beta = np.array([[ab_to_alphabeta(thet)[0,0]*psi0[0] + ab_to_alphabeta(thet)[0,1]*psi0[1]],[ab_to_alphabeta(thet)[1,0]*psi0[0] + ab_to_alphabeta(thet)[1,1]*psi0[1]]])
+    M = ab_to_alphabeta(thet)
+    alpha_beta = np.dot(M,psi0)
     alpha = alpha_beta[0]
     beta = alpha_beta[1]
     # cos(theta/2) and sin(theta/2)
@@ -74,8 +82,6 @@ def main(t,psi0,proj,B0,B,w,g,q,m,c):
     
     return prob
 
-import matplotlib.pyplot as plt
-
 def plot_t(psi0,proj,B0,B,w,g,q,m,c):
     t = np.linspace(0,25*np.pi,num=1000)
     prob_t = main(t,psi0,proj,B0,B,w,g,q,m,c)
@@ -86,15 +92,98 @@ def plot_t(psi0,proj,B0,B,w,g,q,m,c):
     plt.ylabel("$|<+z|\psi(t)>|^2$")
     plt.plot(t,prob_t[0,0])
     plt.show()
-    
 
-def plot_w(t,psi0,proj,B0,B,g,q,m,c):
-    w = np.linspace(0,2,num=1000)
-    prob_w = main(t,psi0,proj,B0,B,w,g,q,m,c)
+def main_bloch(t,psi0,B0,B,w,g,q,m,c):
+    """
+    Takes in params and spits out (theta,phi) corresponding to state
+    """
+    # omegas
+    [w0,w1] = params_to_omegas(B0,B,g,q,m,c)
     
-    fig = plt.figure(figsize=(10,5))
-    plt.suptitle("$|<+z|\psi(t)>|^2$")
-    plt.xlabel("$\omega$")
-    plt.ylabel("$|<+z|\psi(t)>|^2$")
-    plt.plot(w,prob_w[0,0])
-    plt.show()
+    # psi(t)
+    psi_t = psi(t,psi0,w0,w1,w)
+    
+    # top
+    top = psi_t[0]
+    polars = cmath.polar(top)
+    thet = 2*np.arccos(polars[0])
+    
+    # bot
+    bot = psi_t[1]
+    bot *= np.exp(-1j*polars[1])
+    phi = cmath.polar(bot)[1]
+    
+    return thet, phi
+
+
+
+
+class Arrow3D(FancyArrowPatch):
+
+    def __init__(self, xs, ys, zs, *args, **kwargs):
+        FancyArrowPatch.__init__(self, (0, 0), (0, 0), *args, **kwargs)
+        self._verts3d = xs, ys, zs
+
+    def draw(self, renderer):
+        xs3d, ys3d, zs3d = self._verts3d
+        xs, ys, zs = proj3d.proj_transform(xs3d, ys3d, zs3d, renderer.M)
+        self.set_positions((xs[0], ys[0]), (xs[1], ys[1]))
+        FancyArrowPatch.draw(self, renderer)
+
+def bloch_sphere(t,index,psi0,B0,B,w,g,q,m,c):
+    """
+    Plots bloch sphere at given
+    """
+    fig = plt.figure(figsize=(10,10))
+    plt.suptitle(r"Bloch sphere visualization of $\uparrow$ state undergoing rabi oscillations ($B_0 = "+str(B0)+"$, $B = "+str(B)+"$, $\omega = "+str(w)+"$)",fontsize=15)
+    ax = fig.gca(projection='3d')
+    ax.set_ylabel("$y$",fontsize=15)
+    ax.set_yticks([])
+    ax.set_xlabel("$x$",fontsize=15)
+    ax.set_xticks([])
+    ax.set_zlabel("$z$",fontsize=15)
+    ax.set_zticks([])
+
+    # sphere
+    u, v = np.mgrid[0:2*np.pi:100j, 0:np.pi:100j]
+    x = np.cos(u)*np.sin(v)
+    y = np.sin(u)*np.sin(v)
+    z = np.cos(v)
+    ax.plot_wireframe(x, y, z, color="r",alpha=0.1)
+
+    # origin
+    ax.scatter([0], [0], [0], color="g", s=100)
+    
+    # state
+    thet, phi = main_bloch(t,psi0,B0,B,w,g,q,m,c)
+    a = Arrow3D([0, np.sin(thet)*np.cos(phi)], [0, np.sin(thet)*np.sin(phi)], [0, np.cos(thet)], mutation_scale=20,
+            lw=1, arrowstyle="-|>", color="k") 
+    ax.add_artist(a)
+    plt.savefig("images/rabi_bloch_sphere_"+str(index)+".png")
+    plt.close()
+
+def make_movie(tf,psi0,B0,B,w,g,q,m,c):
+    """
+    Makes bloch sphere animation
+    NOT OPTIMIZED in the slightest
+    be sure to have images folder in cwd
+    """
+    ts = np.linspace(0,tf,200)
+
+    # make images in folder
+    for i in range(len(ts)):
+        bloch_sphere(ts[i],i,psi0,B0,B,w,g,q,m,c)
+        
+    import imageio
+    images = []
+    
+    # make filenames array
+    filenames = []
+    for i in range(len(ts)):
+        filenames.append("images/rabi_bloch_sphere_"+str(i)+".png")
+        
+    # make movie
+    for filename in filenames:
+        images.append(imageio.imread(filename))
+    imageio.mimsave('bloch_sphere.gif', images, duration = 1/24)
+
