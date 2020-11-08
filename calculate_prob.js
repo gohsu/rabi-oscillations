@@ -35,9 +35,9 @@ function psi_top(t, psi0, w0, w1, w) {
     const alpha_beta = math.multiply(M, psi0);
     const alpha = alpha_beta['_data'][0];
     const beta = alpha_beta['_data'][1];
-    const term1 = math.pow(alpha * math.cos(math.divide(thet,2)),2);
-    const term2 = math.pow(beta * math.sin(math.divide(thet,2)), 2)
-    const term3 = alpha * beta * math.sin(thet) * math.cos(weff * t);
+    const term1 = math.pow(alpha.abs() * math.cos(math.divide(thet,2)),2);
+    const term2 = math.pow(beta.abs() * math.sin(math.divide(thet,2)), 2)
+    const term3 = alpha.abs() * beta.abs() * math.sin(thet) * math.cos(weff * t + beta.arg() - alpha.arg());
     const psi_t = math.add(term1, term2, term3);
     return psi_t;
 } 
@@ -54,11 +54,11 @@ function main(t, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_psi0, B0,
     return psi_t;
 }
 
-const real_row1_psi0 = 0;
-const im_row1_psi0 = 0;
+const real_row1_psi0 = 1;
+const im_row1_psi0 = 1;
 const real_row2_psi0 = 1;
-const im_row2_psi0 = 0;
+const im_row2_psi0 = -1;
 const omega = 1;
-var prob = main(0, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_psi0, 0, 0, omega, 1, -1);
-console.log('prob');
-console.log(prob);
+const prob = main(0, real_row1_psi0, im_row1_psi0, real_row2_psi0, im_row2_psi0, 0, 0, omega, 1, -1);
+const rounded = math.round(prob, 4);
+console.log(rounded);
